@@ -52,7 +52,7 @@ public class A1Jedi {
 					if (Objects.equals(nameItem, nameItems[k])) {
 						numCustBought[k] += 1;
 						priceTotal[i] += quantity * priceItems[k];
-						countItems[i] += quantity;
+						countItems[k] += quantity;
 						break;
 					}
 				}
@@ -67,7 +67,7 @@ public class A1Jedi {
 				System.out.println("No customers bought " + nameItems[i]);
 			}
 			else {
-				System.out.println(numCustBought[i] + " customers bought " + nameItems[i]);
+				System.out.println(numCustBought[i] + " customers bought " + countItems[i] + " " + nameItems[i]);
 			}
 		}
 	}
