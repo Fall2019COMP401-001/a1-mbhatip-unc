@@ -19,7 +19,7 @@ public class A1Jedi {
 		double[] priceItems = new double[numItems];
 		int[] countItems = new int[numItems];
 		int[] numCustBought = new int[numItems];
-		
+		boolean[] boughtAlready;
 		
 		// loop for item info
 		for (int i = 0; i < numItems; i++) {
@@ -38,9 +38,10 @@ public class A1Jedi {
 		
 		// Loop for customer info
 		for (int i = 0; i < numCust; i++) {
+			boughtAlready = new boolean[numItems];
+			
 			name[i] = scan.next() + " " + scan.next();
 			numBought = scan.nextInt();
-			
 			
 			// Loop for each item bought by single customer
 			for (int j = 0; j < numBought; j++) {
@@ -50,9 +51,12 @@ public class A1Jedi {
 				// Loop to check which item was bought and add to total price
 				for (int k = 0; k < numItems; k++) {
 					if (Objects.equals(nameItem, nameItems[k])) {
-						numCustBought[k] += 1;
 						priceTotal[i] += quantity * priceItems[k];
 						countItems[k] += quantity;
+						if (!boughtAlready[k]) {
+							numCustBought[k] += 1;
+							boughtAlready[k] = true;
+						}
 						break;
 					}
 				}
