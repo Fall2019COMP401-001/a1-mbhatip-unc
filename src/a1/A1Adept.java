@@ -1,5 +1,6 @@
 package a1;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class A1Adept {
@@ -24,37 +25,33 @@ public class A1Adept {
 		// Declaring variables for customers
 		int numCust = scan.nextInt();
 		String[] name = new String[numCust];
-		int[] numBought = new int[numCust];
-		int[] quantityC; 
-		String[] nameItemsC;
-		int[] priceTotal = new int[numCust];
+		int numBought;
+		int quantity; 
+		String nameItem;
+		double[] priceTotal = new double[numCust];
 		
 		// Loop for customer info
 		for (int i = 0; i < numCust; i++) {
-			priceTotal[i] = 0;
 			name[i] = scan.next() + " " + scan.next();
-			numBought[i] = scan.nextInt();
+			numBought = scan.nextInt();
 			
-			// Initialize customer item variables
-			quantityC = new int[numBought[i]];
-			nameItemsC = new String[numBought[i]];
 			
 			// Loop for each item bought by single customer
-			for (int j = 0; j < numBought[i]; j++) {
-				quantityC[j] = scan.nextInt();
-				nameItemsC[j] = scan.next();
+			for (int j = 0; j < numBought; j++) {
+				quantity = scan.nextInt();
+				nameItem = scan.next();
 				
 				// Loop to check which item was bought and add to total price
 				for (int k = 0; k < numItems; k++) {
-					if (nameItems[k] == nameItemsC[j]) {
-						priceTotal[i] += quantityC[j] * priceItems[k];
+					if (Objects.equals(nameItem, nameItems[k])) {
+						priceTotal[i] += quantity * priceItems[k];
+						break;
 					}
 				}
 			}
 		}
 		// Closing scanner
 		scan.close();
-		
 		
 		// Declaring display variables
 		double highest = 0;
@@ -69,7 +66,6 @@ public class A1Adept {
 				highest = priceTotal[i];
 				hname = name[i];
 			}
-			
 			lowest = lowest < 0 ? priceTotal[i] : lowest;
 			if (lowest > priceTotal[i]) {
 				lowest = priceTotal[i];
