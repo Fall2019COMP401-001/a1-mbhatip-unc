@@ -66,8 +66,7 @@ public class A1Adept {
 				highest = priceTotal[i];
 				hname = name[i];
 			}
-			lowest = lowest < 0 ? priceTotal[i] : lowest;
-			if (lowest > priceTotal[i]) {
+			if (lowest > priceTotal[i] || lowest < 0) {
 				lowest = priceTotal[i];
 				lname = name[i];
 			}
