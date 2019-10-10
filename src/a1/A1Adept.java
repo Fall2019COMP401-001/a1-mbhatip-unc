@@ -1,7 +1,7 @@
 package a1;
 
-import java.util.Objects;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class A1Adept {
 
@@ -13,69 +13,60 @@ public class A1Adept {
 		
 		// Declaring variables for items
 		int numItems = scan.nextInt();
-		String[] nameItems = new String[numItems];
-		double[] priceItems = new double[numItems];
+		HashMap<String,Number> itemPrices = new HashMap<>();
 		
 		// loop for item info
 		for (int i = 0; i < numItems; i++) {
-			nameItems[i] = scan.next();
-			priceItems[i] = scan.nextDouble();
+			itemPrices.put(scan.next(), scan.nextDouble());
 		}
 		
 		// Declaring variables for customers
 		int numCust = scan.nextInt();
-		String[] name = new String[numCust];
-		int numBought;
-		int quantity; 
-		String nameItem;
-		double[] priceTotal = new double[numCust];
+		
+		Customer[] customers = new Customer[numCust];
 		
 		// Loop for customer info
 		for (int i = 0; i < numCust; i++) {
-			name[i] = scan.next() + " " + scan.next();
-			numBought = scan.nextInt();
+			String fname = scan.next();
+			String lname = scan.next();
+			Item[] items = new Item[scan.nextInt()];
 			
 			
 			// Loop for each item bought by single customer
-			for (int j = 0; j < numBought; j++) {
-				quantity = scan.nextInt();
-				nameItem = scan.next();
+			for (int j = 0; j < items.length; j++) {
+				int quantity = scan.nextInt();
+				String nameItem = scan.next();
 				
-				// Loop to check which item was bought and add to total price
-				for (int k = 0; k < numItems; k++) {
-					if (Objects.equals(nameItem, nameItems[k])) {
-						priceTotal[i] += quantity * priceItems[k];
-						break;
-					}
-				}
+				items[j] = new Item(nameItem, (double) itemPrices.get(nameItem), quantity);
 			}
+			customers[i] = new Customer(fname, lname, items);
 		}
 		// Closing scanner
 		scan.close();
 		
 		// Declaring display variables
 		double highest = 0;
-		String hname = null;
+		Customer highestCustomer = null;
 		double average = 0;
 		double lowest = -1;
-		String lname = null;
+		Customer lowestCustomer = null;
 		
 		// Loop to find highest, lowest, and avg price
-		for (int i = 0; i < numCust; i++) {
-			if (highest < priceTotal[i]) {
-				highest = priceTotal[i];
-				hname = name[i];
+		for (Customer c : customers) {
+			if (highest < c.getTotal()) {
+				highestCustomer = c;
+				highest = c.getTotal();
 			}
-			if (lowest > priceTotal[i] || lowest < 0) {
-				lowest = priceTotal[i];
-				lname = name[i];
+			if (lowest > c.getTotal() || lowest < 0) {
+				lowestCustomer = c;
+				lowest = c.getTotal();
 			}
-			average += priceTotal[i] / priceTotal.length;
+			average += c.getTotal() / customers.length;
 		}
 		
 		// Displaying info
-		System.out.println("Biggest: " + hname + " (" + String.format("%.2f", highest) + ")");
-		System.out.println("Smallest: " + lname + " (" + String.format("%.2f", lowest) + ")");
+		System.out.println("Biggest: " + highestCustomer.getFullname() + " (" + String.format("%.2f", highestCustomer.getTotal()) + ")");
+		System.out.println("Smallest: " + lowestCustomer.getFullname() + " (" + String.format("%.2f", lowestCustomer.getTotal()) + ")");
 		System.out.println("Average: " + String.format("%.2f", average));
 		
 	}
